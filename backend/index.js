@@ -4,7 +4,7 @@ const
   logger = require('morgan'),
   bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
-  //usersRoutes = require('./routes/users.js')
+  usersRoutes = require('./routes/users.js')
   cors = require('cors'),
   mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/RadPads',
   port = process.env.PORT || 3001
@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
   res.json({message: "Server root. All API routes start with a Rad api..."})
 })
 
-//app.use('/api/users', usersRoutes)
+app.use('/api/users', usersRoutes)
 
 app.listen(port, (err) => {
   console.log(err || `Server running on ${port}`)
