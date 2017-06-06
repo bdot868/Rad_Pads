@@ -62,6 +62,11 @@ class App extends Component {
     })
   }
 
+  _profilePage(evt){
+    console.log(evt)
+    return this.state.currentUser
+  }
+
   render() {
     return (
       <div className="App">
@@ -79,9 +84,9 @@ class App extends Component {
           {this.state.loggedIn && (
             <li><button onClick={this._logOut.bind(this)}>Log out</button></li>
           )}
-          {/* {this.state.loggedIn && (
-            <button name="profile" onClick={this._userProfile.bind(this)}>Profile page</button>
-          )} */}
+          {this.state.loggedIn && (
+            <button name="profile" onClick={this._setView.bind(this)}>Profile page</button>
+          )}
         </ul>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
@@ -90,7 +95,7 @@ class App extends Component {
           home: <h1>The Home View</h1>,
           login: <LogIn onLogin={this._login} />,
           signup: <SignUp onSignup={this._signUp} />,
-          // profile: <Profile onProfile={this._signUp.bind(this)} />
+          profile: <Profile myUser={this.state.currentUser} />
         }[this.state.view]}
       </div>
     );
@@ -148,18 +153,30 @@ class LogIn extends Component {
 }
 
 class Profile extends Component {
-  _userProfile(evt) {
-    evt.preventDefault()
+  constructor(props){
+    super(props)
 
+    this._userProfile = this._userProfile.bind(this)
   }
+  _userProfile() {
+    // evt.preventDefault()
+    var currentUser = this.props.myUser
+    console.log(this.props.myUser);
+    return currentUser
+  }
+
+
   render() {
+
     return (
       <div className="container">
-        <h2>{this.state.currentUser.name}</h2>
+        {this.props.myUser.name}
       </div>
     //   {/* <div>saved listing and favorited listings</div> */}
      )
+
   }
+
 }
 
 export default App;
