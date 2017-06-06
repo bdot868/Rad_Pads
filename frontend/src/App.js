@@ -62,10 +62,6 @@ class App extends Component {
     })
   }
 
-  _profilePage(evt){
-    console.log(evt)
-    return this.state.currentUser
-  }
 
   render() {
     return (
@@ -75,6 +71,9 @@ class App extends Component {
           <h2>{this.state.loggedIn ? this.state.currentUser.name : 'Log in buster!'}</h2>
         </div>
         <ul>
+          {
+            <li><button name='home' onClick={this._setView.bind(this)}>Home</button></li>
+          }
           {!this.state.loggedIn && (
             <li><button name='signup' onClick={this._setView.bind(this)}>Sign Up</button></li>
           )}
@@ -155,14 +154,6 @@ class LogIn extends Component {
 class Profile extends Component {
   constructor(props){
     super(props)
-
-    this._userProfile = this._userProfile.bind(this)
-  }
-  _userProfile() {
-    // evt.preventDefault()
-    var currentUser = this.props.myUser
-    console.log(this.props.myUser);
-    return currentUser
   }
 
 
