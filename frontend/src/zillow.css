@@ -1,0 +1,15 @@
+.form-inline {
+  margin-top: 125px;
+}
+
+#address, #citystatezip {
+  margin:10px;
+}
+
+label {
+  margin: 5px;
+}
+
+#zillow {
+  width: 300px;
+}

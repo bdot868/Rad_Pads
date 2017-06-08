@@ -51,7 +51,20 @@ const clientAuth = {
     })
   },
 
+  getLocationInfo: (locationData) => {
+    return axios({
+      url:'/api/location',
+      method:'POST',
+      data: locationData
+    })
+  },
 
+  returnedZillowInfo: () => {
+    return axios({
+      url: '/api/location',
+      method: 'get'
+    })
+  }
 }
 
 clientAuth.setTokenHeader()
