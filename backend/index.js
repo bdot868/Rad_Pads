@@ -5,6 +5,7 @@ const
   bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
   usersRoutes = require('./routes/users.js'),
+  zillowRoutes = require('./routes/zillowQuotes.js'),
   cors = require('cors'),
   request = require('request'),
   Zillow = require('node-zillow'),
@@ -34,7 +35,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/api/location', (req,res) => {
-  console.log(req.body);
+  // console.log(req.body);
   var address = req.body.address
   var citystatezip = req.body.citystatezip
   zillow = new Zillow('X1-ZWz1fued5ovh8r_3l8b3')
@@ -43,7 +44,7 @@ app.post('/api/location', (req,res) => {
   request(url, function (error, response, body) {
     if(!error && response.statusCode == 200) {
       var jsonResponse = JSON.parse(parser.toJson(body))
-       console.log(jsonResponse['SearchResults:searchresults'].response.results.result)
+      //  console.log(jsonResponse['SearchResults:searchresults'].response.results.result)
 
       // var zpid = jsonResponse['SearchResults:searchresults'].response.results.result[1].zpid
       // var updatedUrl = `http://www.zillow.com/webservice/GetUpdatedPropertyDetails.htm?zws-id=${zillow.id}&zpid=${zpid}`
@@ -63,6 +64,7 @@ app.post('/api/location', (req,res) => {
 // })
 
 app.use('/api/users', usersRoutes)
+app.use('/api/quotes', zillowRoutes)
 
 app.listen(port, (err) => {
   console.log(err || `Server running on ${port}`)

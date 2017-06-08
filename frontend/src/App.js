@@ -72,12 +72,32 @@ class App extends Component {
       console.log(apiLocationData)
       this.setState({
         dataSetLocation: apiLocationData.data["SearchResults:searchresults"].response.results.result,
-        view: 'home'
+        view: 'zillow'
       })
     });
 
   }
 
+  // _addQuote(evt){
+  //   evt.preventDefault()
+  //   const newQuote = {
+  //     street: this.state.dataSetLocation.address.street,
+  //     city: this.state.dataSetLocation.address.city,
+  //     state: this.state.dataSetLocation.address.state,
+  //     zestimate: this.state.dataSetLocation.zestimate.amount['$t'],
+  //     useCode: this.state.dataSetLocation.useCode,
+  //   }
+  //   console.log(newQuote)
+  //   clientAuth.addQuote(newQuote).then(res => {
+  //     console.log(res.data)
+  //     this.setState({
+  //       dataSetLocation: [
+  //         ...this.state.dataSetLocation,
+  //         res.data
+  //       ]
+  //     })
+  //   })
+  // }
 
   render() {
     var listing = this.state.dataSetLocation
@@ -115,11 +135,11 @@ class App extends Component {
           home: <h1>Property Data</h1>,
           login: <LogIn onLogin={this._login} />,
           signup: <SignUp onSignup={this._signUp} />,
-          profile: <Profile myUser={this.state.currentUser} />,
-          zillow: <Zillow onSearch={this._zillowData}/>
+          profile: <Profile myUser={this.state.currentUser} quotes={listing}/>,
+          zillow: <Zillow onSearch={this._zillowData} data={this.state.dataSetLocation}/>
         }[this.state.view]}
       </div>
-        {listing
+        {/* {listing
           ? (
             <div className='listing'>
               <p>City: {listing.address.city}</p>
@@ -142,11 +162,11 @@ class App extends Component {
 
               <h3>Your home is worth:</h3>
               <h2>${listing.zestimate.amount['$t']}</h2>
-              <button>Save Quote</button>
+              <button id="save" onClick={this._addQuote.bind(this)}>Save Quote</button>
             </div>
           )
           : null
-        }
+        } */}
       </div>
     );
   }
@@ -226,18 +246,58 @@ class LogIn extends Component {
 }
 
 class Profile extends Component {
-  constructor(props){
-    super(props)
+  state = {
+    quotes: []
+  }
+
+  componentDidMount(){
+    clientAuth.getQuotes().then(res => {
+      // console.log(res.data);
+      this.setState({
+        quotes: res.data
+      })
+    })
+  }
+
+  _deleteQuote(id){
+    clientAuth.deleteQuote(id).then((res => {
+      this.setState({
+        quotes: this.state.quotes.filter((quote) => {
+          return quote._id !== id
+        })
+      })
+    }))
   }
 
 
   render() {
+    console.log(this.state.quotes);
+    const quotes = this.state.quotes.map((quote, i) => {
+      console.log(quote);
+      return (
+        <div>
+        <div id="quote-div" key={i}>
+          <p>{quote.street}, {quote.city}, {quote.state}</p>
+          <p><strong>{quote.useCode}</strong></p>
+          <h4>${quote.zestimate}</h4>
+          <button onClick={this._deleteQuote.bind(this, quote._id)} className="glyphicon glyphicon-trash"></button>
+        </div>
 
+      </div>
+      )
+    })
     return (
       <div className="container">
-        {this.props.myUser.name}
+        <div>
+          <h1>{this.props.myUser.name}</h1>
+        </div>
+        <div>
+          {quotes}
+        </div>
+
+
       </div>
-    //   {/* <div>saved listing and favorited listings</div> */}
+
      )
 
   }

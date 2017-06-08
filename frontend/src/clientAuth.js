@@ -59,10 +59,32 @@ const clientAuth = {
     })
   },
 
-  returnedZillowInfo: () => {
+  // returnedZillowInfo: () => {
+  //   return axios({
+  //     url: '/api/location',
+  //     method: 'get'
+  //   })
+  // }
+  getQuotes: () => {
     return axios({
-      url: '/api/location',
+      url: 'api/quotes',
       method: 'get'
+    })
+  },
+
+  addQuote: (newZillowQuote) => {
+    console.log(newZillowQuote)
+    return axios({
+      url: '/api/quotes',
+      method: 'post',
+      data: newZillowQuote
+    })
+  },
+
+  deleteQuote: (id) => {
+    return axios({
+      url: `/api/quotes/${id}`,
+      method: 'delete'
     })
   }
 }
