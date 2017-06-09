@@ -139,7 +139,7 @@ class App extends Component {
 
         <div>
         {{
-          home: <h1 id="tagname">Home Valuator!</h1>,
+          home: <h1 id="tagname">Home Appraiser!</h1>,
           login: <LogIn onLogin={this._login} />,
           signup: <SignUp onSignup={this._signUp} />,
           profile: <Profile myUser={this.state.currentUser} quotes={listing} onDismissModal={this._clearSearch.bind(this)}/>,
@@ -172,7 +172,7 @@ class SignUp extends Component {
   render() {
     return (
       <div className='container'>
-        <h2>Sign Up</h2>
+        <h1>Sign Up</h1>
         <form className="form-horizontal" onSubmit={this._handleSignup.bind(this)}>
           <div className="form-group">
             <input className="form-control" type="text" placeholder="Name" ref="name" />
@@ -205,7 +205,7 @@ class LogIn extends Component {
   render() {
     return (
       <div className='log-in'>
-        <h2>Log In</h2>
+        <h1>Log In</h1>
         <form className="form-horizontal" onSubmit={this._handleLogin.bind(this)}>
           <div className="form-group">
             {/* <label className="col-sm-2 control-label">Email</label> */}
@@ -277,8 +277,8 @@ class Profile extends Component {
     const quotes = this.state.quotes.map((quote, i) => {
       // console.log(quote);
       return (
-        <div key={i} onClick={this._showInfo.bind(this, quote)}>
-        <div id="quote-div"  >
+        <div key={i} >
+        <div id="quote-div"  onClick={this._showInfo.bind(this, quote)}>
           <p><span>{quote.street}, {quote.city}, {quote.state}</span></p>
           <p><strong>{quote.useCode}</strong></p>
           <h4>${quote.zestimate}</h4>
