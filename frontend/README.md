@@ -46,11 +46,10 @@ Then do a `git pull`.
 
 ## User Stories
 
-To configure the syntax highlighting in your favorite text editor, head to the [relevant Babel documentation page](https://babeljs.io/docs/editors) and follow the instructions. Some of the most popular editors are covered.
-
+![user stories](user-stories.png)
 ## Wireframe
 
-
+![Wireframe](wireframe.png)
 
 ## Api Call
 
