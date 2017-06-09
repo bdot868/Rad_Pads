@@ -14,7 +14,7 @@ class App extends Component {
       currentUser: null,
       loggedIn: false,
       dataSetLocation: null,
-      view: 'zillow'
+      view: 'home'
     }
     this._login=this._login.bind(this)
     this._signUp=this._signUp.bind(this)
@@ -113,25 +113,25 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>{!this.state.loggedIn ? 'Log in buster!' : null}</h2>
+          <h2 id="buster">{!this.state.loggedIn ? 'Log in buster!' : null}</h2>
           <ul className="nav nav-tabs">
             {/* {
               <li><button name='home' onClick={this._setView.bind(this)}>Home</button></li>
             } */}
             {!this.state.loggedIn && (
-              <li><button name='signup' onClick={this._setView.bind(this)}>Sign Up</button></li>
+              <li><button id="nav-links" name='signup' onClick={this._setView.bind(this)}>Sign Up</button></li>
             )}
             {!this.state.loggedIn && (
-              <li><button name='login' onClick={this._setView.bind(this)}>Log In</button></li>
+              <li><button id="nav-links" name='login' onClick={this._setView.bind(this)}>Log In</button></li>
             )}
             {this.state.loggedIn &&(
-                <li><button name='zillow' onClick={this._setView.bind(this)}>Zillow</button></li>
+                <li><button id="nav-links" name='zillow' onClick={this._setView.bind(this)} className="btn">Zillow</button></li>
             )}
             {this.state.loggedIn && (
-              <button name="profile" onClick={this._setView.bind(this)}>Profile page</button>
+              <li><button id="nav-links" name="profile" onClick={this._setView.bind(this)} className="btn">Profile page</button></li>
             )}
             {this.state.loggedIn && (
-              <li><button onClick={this._logOut.bind(this)}>Log out</button></li>
+              <li><button id="nav-links" onClick={this._logOut.bind(this)} className="btn">Log out</button></li>
             )}
           </ul>
         </div>
@@ -139,7 +139,7 @@ class App extends Component {
 
         <div>
         {{
-          home: <h1>Property Data</h1>,
+          home: <h1 id="tagname">Home Valuator!</h1>,
           login: <LogIn onLogin={this._login} />,
           signup: <SignUp onSignup={this._signUp} />,
           profile: <Profile myUser={this.state.currentUser} quotes={listing} onDismissModal={this._clearSearch.bind(this)}/>,
@@ -294,7 +294,9 @@ class Profile extends Component {
         </div>
         <hr></hr>
         <div>
+        <div>
           {quotes}
+        </div>
         </div>
         <Modal show={!!this.state.toggleQuote} onHide={this._clearToggle.bind(this)}>
           <Modal.Header closeButton>
@@ -305,7 +307,7 @@ class Profile extends Component {
               <p><strong>City:</strong>: {this.state.selectedQuote.city}</p>
               <p><strong>State:</strong> {this.state.selectedQuote.state}</p>
               <p><strong>Street:</strong> {this.state.selectedQuote.street}</p>
-              <p><strong>Zipcode:</strong> {this.state.selectedQuote.zipcode}</p>
+
               <p><i>{this.state.selectedQuote.useCode}</i></p>
               <h3>Home Value:</h3>
               <h2>${this.state.selectedQuote.zestimate}</h2>

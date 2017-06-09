@@ -5,7 +5,7 @@
 
 .App-header {
   background-color: #222;
-  height: 52px;
+  height: 55px;
   padding: 3px;
   color: white;
 }
@@ -59,6 +59,7 @@ body {
     height: 100px;
     width: 452px;
     padding: 10px;
+    margin-left: 75px
 
 }
 span {
@@ -70,5 +71,21 @@ h4 {
   color: green
 }
 #username {
-  color: white
+  color: white;
+}
+#nav-links {
+  width: 100px;
+  border: 1px solid black;
+}
+.nav {
+  padding-left: 1003px;
+}
+h2, h1 {
+  color: white;
+}
+#buster {
+  height: 0px;
+}
+#tagname{
+  margin-top: 200px;
 }
