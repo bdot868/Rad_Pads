@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios'
 import './App.css'
 import clientAuth from './clientAuth'
 import Zillow from './zillow'
+var ReactBootstrap = require('react-bootstrap')
+var Modal = ReactBootstrap.Modal
 
 
 class App extends Component {
@@ -13,7 +14,7 @@ class App extends Component {
       currentUser: null,
       loggedIn: false,
       dataSetLocation: null,
-      view: 'home'
+      view: 'zillow'
     }
     this._login=this._login.bind(this)
     this._signUp=this._signUp.bind(this)
@@ -78,6 +79,12 @@ class App extends Component {
 
   }
 
+  _clearSearch() {
+    this.setState({
+      dataSetLocation: null
+    })
+  }
+
   // _addQuote(evt){
   //   evt.preventDefault()
   //   const newQuote = {
@@ -108,9 +115,9 @@ class App extends Component {
         <div className="App-header">
           <h2>{!this.state.loggedIn ? 'Log in buster!' : null}</h2>
           <ul className="nav nav-tabs">
-            {
+            {/* {
               <li><button name='home' onClick={this._setView.bind(this)}>Home</button></li>
-            }
+            } */}
             {!this.state.loggedIn && (
               <li><button name='signup' onClick={this._setView.bind(this)}>Sign Up</button></li>
             )}
@@ -135,38 +142,17 @@ class App extends Component {
           home: <h1>Property Data</h1>,
           login: <LogIn onLogin={this._login} />,
           signup: <SignUp onSignup={this._signUp} />,
-          profile: <Profile myUser={this.state.currentUser} quotes={listing}/>,
-          zillow: <Zillow onSearch={this._zillowData} data={this.state.dataSetLocation}/>
+          profile: <Profile myUser={this.state.currentUser} quotes={listing} onDismissModal={this._clearSearch.bind(this)}/>,
+          zillow: (
+            <Zillow
+              onSearch={this._zillowData}
+              data={this.state.dataSetLocation}
+              onDismissModal={this._clearSearch.bind(this)}
+            />
+          )
         }[this.state.view]}
       </div>
-        {/* {listing
-          ? (
-            <div className='listing'>
-              <p>City: {listing.address.city}</p>
-              <p>State: {listing.address.state}</p>
-              <p>Street: {listing.address.street}</p>
-              <p>Zipcode: {listing.address.zipcode}</p>
-              <p><strong>{listing.useCode}</strong></p>
-              <p>Address: {listing.address.street}, {listing.address.city}, {listing.address.state}</p>
-              <div className="table-responsive">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>{listing.finishedSqFt} Sq.ft</th>
-                      <th>{listing.bedrooms} Beds</th>
-                      <th>{listing.bathrooms} Baths</th>
-                    </tr>
-                  </thead>
-                </table>
-              </div>
 
-              <h3>Your home is worth:</h3>
-              <h2>${listing.zestimate.amount['$t']}</h2>
-              <button id="save" onClick={this._addQuote.bind(this)}>Save Quote</button>
-            </div>
-          )
-          : null
-        } */}
       </div>
     );
   }
@@ -247,7 +233,9 @@ class LogIn extends Component {
 
 class Profile extends Component {
   state = {
-    quotes: []
+    quotes: [],
+    toggleQuote: false,
+    selectedQuote:{},
   }
 
   componentDidMount(){
@@ -269,33 +257,61 @@ class Profile extends Component {
     }))
   }
 
+  _showInfo(quote){
+    console.log('show something')
+    console.log(quote);
+    this.setState({
+      toggleQuote: !this.state.toggleQuote,
+      selectedQuote: quote,
+    })
+  }
+  _clearToggle() {
+    this.setState({
+      toggleQuote: null
+    })
+  }
+
 
   render() {
-    console.log(this.state.quotes);
+    // console.log(this.state.quotes);
     const quotes = this.state.quotes.map((quote, i) => {
-      console.log(quote);
+      // console.log(quote);
       return (
-        <div>
-        <div id="quote-div" key={i}>
-          <p>{quote.street}, {quote.city}, {quote.state}</p>
+        <div key={i} onClick={this._showInfo.bind(this, quote)}>
+        <div id="quote-div"  >
+          <p><span>{quote.street}, {quote.city}, {quote.state}</span></p>
           <p><strong>{quote.useCode}</strong></p>
           <h4>${quote.zestimate}</h4>
-          <button onClick={this._deleteQuote.bind(this, quote._id)} className="glyphicon glyphicon-trash"></button>
         </div>
-
+        <button onClick={this._deleteQuote.bind(this, quote._id)} className="glyphicon glyphicon-trash"></button>
       </div>
       )
     })
     return (
       <div className="container">
         <div>
-          <h1>{this.props.myUser.name}</h1>
+          <h1 id='username'>{this.props.myUser.name}</h1>
         </div>
+        <hr></hr>
         <div>
           {quotes}
         </div>
-
-
+        <Modal show={!!this.state.toggleQuote} onHide={this._clearToggle.bind(this)}>
+          <Modal.Header closeButton>
+            <Modal.Title id="title">Property Data</Modal.Title>
+          </Modal.Header>
+            <Modal.Body>
+            <div className='listing'>
+              <p><strong>City:</strong>: {this.state.selectedQuote.city}</p>
+              <p><strong>State:</strong> {this.state.selectedQuote.state}</p>
+              <p><strong>Street:</strong> {this.state.selectedQuote.street}</p>
+              <p><strong>Zipcode:</strong> {this.state.selectedQuote.zipcode}</p>
+              <p><i>{this.state.selectedQuote.useCode}</i></p>
+              <h3>Home Value:</h3>
+              <h2>${this.state.selectedQuote.zestimate}</h2>
+            </div>
+            </Modal.Body>
+          </Modal>
       </div>
 
      )

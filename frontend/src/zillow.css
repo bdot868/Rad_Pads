@@ -8,8 +8,27 @@
 
 label {
   margin: 5px;
+  color: white
 }
 
 #zillow {
   width: 300px;
+}
+.listing {
+  text-align: center
+}
+
+.amount {
+  background: lightblue;
+  width: 200px;
+  margin-left: 182px;
+}
+
+.details {
+  display: inline-block;
+  margin: 5px;
+  font-weight: bold;
+}
+#get-info {
+  color: white
 }

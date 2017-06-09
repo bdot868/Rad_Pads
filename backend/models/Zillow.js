@@ -8,6 +8,8 @@ const
     beds: Number,
     baths: Number,
     zestimate: Number,
+    sqft: Number,
+    useCode: String
   })
 
   const Zillow = mongoose.model('Zillow', zillowSchema)
