@@ -59,7 +59,9 @@ body {
     height: 100px;
     width: 452px;
     padding: 10px;
-    margin-left: 75px
+    margin-left: 75px;
+    margin-bottom: 20px;
+    margin-right: 10px;
 
 }
 span {
@@ -88,4 +90,7 @@ h1 {
 }
 #tagname{
   margin-top: 200px;
+}
+.quote-item {
+  display: inline-block;
 }

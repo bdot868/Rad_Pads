@@ -86,6 +86,14 @@ const clientAuth = {
       url: `/api/quotes/${id}`,
       method: 'delete'
     })
+  },
+
+  deleteUser: (id) => {
+    console.log("client auth", id)
+    return axios({
+      url: `/api/users/${id}`,
+      method: 'delete'
+    })
   }
 }
 

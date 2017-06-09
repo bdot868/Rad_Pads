@@ -58,6 +58,7 @@ class App extends Component {
     })
   }
 
+
   _setView(evt) {
     evt.preventDefault()
     const view = evt.target.name
@@ -115,9 +116,7 @@ class App extends Component {
         <div className="App-header">
           <h2 id="buster">{!this.state.loggedIn ? 'Log in buster!' : null}</h2>
           <ul className="nav nav-tabs">
-            {/* {
-              <li><button name='home' onClick={this._setView.bind(this)}>Home</button></li>
-            } */}
+
             {!this.state.loggedIn && (
               <li><button id="nav-links" name='signup' onClick={this._setView.bind(this)}>Sign Up</button></li>
             )}
@@ -133,6 +132,7 @@ class App extends Component {
             {this.state.loggedIn && (
               <li><button id="nav-links" onClick={this._logOut.bind(this)} className="btn">Log out</button></li>
             )}
+
           </ul>
         </div>
 
@@ -213,14 +213,14 @@ class LogIn extends Component {
               <input className="form-control" type="text" placeholder="Email" ref="email" id='log-in'/>
             </div>
           </div>
-          <div>
+          <div className="form-group">
             {/* <label className="col-sm-2 control-label">Password</label> */}
             <div className="col-sm-10">
               <input className="form-control" type="password" placeholder="Password" ref="password" id="log-in"/>
             </div>
           </div>
           <div>
-            <div>
+            <div className="form-group">
               <button type="submit" className="btn btn-success" >Log In</button>
             </div>
           </div>
@@ -271,6 +271,17 @@ class Profile extends Component {
     })
   }
 
+  _deleteUser(evt){
+    console.log(evt.target.id)
+    clientAuth.deleteUser(evt.target.id).then((res => {
+      this.setState({
+        currentUser: null,
+        view: 'home'
+        })
+      })
+    )
+  }
+
 
   render() {
     // console.log(this.state.quotes);
@@ -278,12 +289,14 @@ class Profile extends Component {
       // console.log(quote);
       return (
         <div key={i} >
-        <div id="quote-div"  onClick={this._showInfo.bind(this, quote)}>
+        <div className="quote-item" id="quote-div"  onClick={this._showInfo.bind(this, quote)}>
           <p><span>{quote.street}, {quote.city}, {quote.state}</span></p>
           <p><strong>{quote.useCode}</strong></p>
           <h4>${quote.zestimate}</h4>
         </div>
-        <button onClick={this._deleteQuote.bind(this, quote._id)} className="glyphicon glyphicon-trash"></button>
+        <div className="quote-item">
+          <button onClick={this._deleteQuote.bind(this, quote._id)} className="glyphicon glyphicon-trash"></button>
+        </div>
       </div>
       )
     })
@@ -292,12 +305,17 @@ class Profile extends Component {
         <div>
           <h1 id='username'>{this.props.myUser.name}</h1>
         </div>
+
+
+
         <hr></hr>
         <div>
         <div>
           {quotes}
         </div>
+          {/* <button id={this.props.myUser._id} className="btn btn-success" onClick={this._deleteUser.bind(this)}>Delete Account</button> */}
         </div>
+
         <Modal show={!!this.state.toggleQuote} onHide={this._clearToggle.bind(this)}>
           <Modal.Header closeButton>
             <Modal.Title id="title">Property Data</Modal.Title>

@@ -38,7 +38,7 @@ The approach I took from beginning to end was first to decide on what type of ap
 
 I set out to finish the backend functionality and user model and routes first since I was most familiar with it.
 
-I then worked on The front-end displaying the information from the back-end and decided to use react since it was a newly taught language and I am interested in learning more about it. 
+I then worked on The front-end displaying the information from the back-end and decided to use react since it was a newly taught language and I am interested in learning more about it.
 
 ## Installation Instructions
 Do a `git clone` of this repositories url in your workspace.
@@ -57,7 +57,7 @@ Then do a `git pull`.
 
 ```json
 app.post('/api/location', (req,res) => {
-  
+
   var address = req.body.address
   var citystatezip = req.body.citystatezip
   zillow = new Zillow('zws-id')
@@ -67,7 +67,7 @@ app.post('/api/location', (req,res) => {
     if(!error && response.statusCode == 200) {
       var jsonResponse = JSON.parse(parser.toJson(body))
      sult[1].zpid
-      
+
       res.json(jsonResponse)
     }
   })
@@ -75,7 +75,7 @@ app.post('/api/location', (req,res) => {
 ```
 
 
-## Technical Requirements 
+## Technical Requirements
 
 - Build a full-stack application by making your own backend and your own front-end
 - Have an API of your design
@@ -93,6 +93,4 @@ app.post('/api/location', (req,res) => {
 # Everything!!!!!
  - The api calls were challenging figuring out exactly the best way to do it with such limited documentstion.
  - Learning the component flow of react and rendering different pages by setting the state.
- - adjacent tags 
-
-
+ - Syntax error: Adjacent JSX elements must be wrapped in an enclosing tag 
