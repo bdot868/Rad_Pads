@@ -43,8 +43,9 @@ app.post('/api/location', (req,res) => {
 
   request(url, function (error, response, body) {
     if(!error && response.statusCode == 200) {
+      //console.log(body)
       var jsonResponse = JSON.parse(parser.toJson(body))
-      //  console.log(jsonResponse['SearchResults:searchresults'].response.results.result)
+        console.log(jsonResponse['SearchResults:searchresults'].response.results.result)
 
       // var zpid = jsonResponse['SearchResults:searchresults'].response.results.result[1].zpid
       // var updatedUrl = `http://www.zillow.com/webservice/GetUpdatedPropertyDetails.htm?zws-id=${zillow.id}&zpid=${zpid}`
