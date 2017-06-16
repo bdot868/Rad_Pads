@@ -44,18 +44,45 @@ app.post('/api/location', (req,res) => {
   request(url, function (error, response, body) {
     if(!error && response.statusCode == 200) {
       //console.log(body)
-      var jsonResponse = JSON.parse(parser.toJson(body))
-        console.log(jsonResponse['SearchResults:searchresults'].response.results.result)
+      console.log(req.body.address)
+       var jsonResponse = JSON.parse(parser.toJson(body))
+         console.log(jsonResponse['SearchResults:searchresults'].response.results.result)
+         if(Array.isArray(jsonResponse['SearchResults:searchresults'].response.results.result)){
+           var results = jsonResponse['SearchResults:searchresults'].response.results.result
+           var address
+           results.forEach((property) => {
+              if (property.address.street == req.body.address){
+                console.log(property)
+                propertyInfo = {
+                  city: property.address.city,
+                  state: property.address.state,
+                  street: property.address.street,
+                  zipcode: property.address.zipcode,
+                  useCode: property.useCode,
+                  sqft: property.finishedSqFt,
+                  beds: property.bedrooms,
+                  baths: property.bathrooms,
+                  zestimate: property.zestimate.amount['$t']
+                }
+                res.json(propertyInfo)
+              }
+            })
+         } else {
+           let property = jsonResponse['SearchResults:searchresults'].response.results.result
+           propertyInfo = {
+             city: property.address.city,
+             state: property.address.state,
+             street: property.address.street,
+             zipcode: property.address.zipcode,
+             useCode: property.useCode,
+             sqft: property.finishedSqFt,
+             beds: property.bedrooms,
+             baths: property.bathrooms,
+             zestimate: property.zestimate.amount['$t']
+           }
+            res.json(propertyInfo)
+         }
 
-      // var zpid = jsonResponse['SearchResults:searchresults'].response.results.result[1].zpid
-      // var updatedUrl = `http://www.zillow.com/webservice/GetUpdatedPropertyDetails.htm?zws-id=${zillow.id}&zpid=${zpid}`
-      //
-      // request(updatedUrl, function (error, response, details) {
-      //   if(!error && response.statusCode == 200) {
-      //     console.log(details)
-      //   }
-      // })
-      res.json(jsonResponse)
     }
   })
 })
